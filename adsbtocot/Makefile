@@ -2,11 +2,12 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adsbtocot
 PKG_VERSION:=1
-PKG_RELEASE:=2
+PKG_RELEASE:=1
+
 PKG_MAINTAINER:=info@openmanet.net
 PKG_LICENSE:=MIT
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
-HOST_BUILD_DEPENDS:=python3/host
+PKG_BUILD_DEPENDS:=python3/host
 PKGARCH:=all
 
 include $(INCLUDE_DIR)/package.mk
