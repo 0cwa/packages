@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=morse_driver
-PKG_RELEASE=3
+PKG_RELEASE=4
 
 PKG_VERSION:=1.16.4
 
