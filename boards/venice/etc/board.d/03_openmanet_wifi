@@ -1,0 +1,16 @@
+. /lib/functions/uci-defaults.sh
+
+board=$(board_name)
+
+board_config_update
+
+case "$board" in
+gateworks,imx8mm-gw75xx-0x|\
+gateworks,imx8mp-gw75xx-2x|)
+    ucidef_set_wireless '5g' 'openmanet' 'sae' 'openmanet'
+	;;
+esac
+
+board_config_flush
+
+exit 0
