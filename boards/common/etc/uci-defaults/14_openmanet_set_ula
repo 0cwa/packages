@@ -1,3 +1,4 @@
+# Originates in github.com/openmanet/packages/common
 uci -q batch <<-EOF >/dev/null
 	set network.globals.ula_prefix=fd01:ed20:ecb4::/48
 	commit network
