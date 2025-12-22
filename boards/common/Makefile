@@ -21,9 +21,6 @@ define Build/Compile
 endef
 
 define Package/openmanet-bsp-common/install
-	$(INSTALL_DIR) $(1)/etc/
-	$(CP) ./etc/* $(1)/etc/
-
 	$(INSTALL_DIR) $(1)/etc/uci-defaults/
 	$(CP) ./etc/uci-defaults/* $(1)/etc/uci-defaults/
 endef
