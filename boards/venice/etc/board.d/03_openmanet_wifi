@@ -1,16 +1,48 @@
-. /lib/functions/uci-defaults.sh
+#!/bin/sh
 
 board=$(board_name)
-
-board_config_update
 
 case "$board" in
 gateworks,imx8mm-gw75xx-0x|\
 gateworks,imx8mp-gw75xx-2x)
-    ucidef_set_wireless '5g' 'openmanet' 'sae' 'openmanet'
+    setup_openmanet_wifi
 	;;
 esac
 
-board_config_flush
+# Set OpenMANET WiFi SSID and password if they are still at the OpenWrt defaults.
+setup_openmanet_wifi() {
+    wifi_password="openmanet" || return 1
+
+    for radio in 'radio0' 'radio1'
+    do
+        # Radio doesn't exist.
+        uci -q get wireless."$radio" || continue
+
+        # SSID is different from the OpenWrt default!
+        # This means the user has already set it to something else.
+        # In both cases, we don't want to touch anything.
+        ssid="$(uci -q get wireless.default_${radio}.ssid)"
+        [ "$ssid" != "OpenWrt" ] && continue
+
+        # Set fixed channel
+        hwmode=$(uci -q get wireless."$radio".hwmode)
+        [ "$hwmode" = "11g" ] && channel=6
+        [ "$hwmode" = "11a" ] && channel=36
+        [ -n "$channel" ] && uci set wireless."$radio".channel="$channel"
+
+        # Set country
+        uci set wireless."$radio".country="US"
+
+        # Enable radio
+        uci set wireless."$radio".disabled="0"
+
+        # Set SSID and password
+        uci set wireless.default_"$radio".ssid="openmanet"
+        uci set wireless.default_"$radio".encryption="psk-mixed"
+        uci set wireless.default_"$radio".key="$wifi_password"
+
+        uci -q commit wireless
+    done
+}
 
 exit 0
