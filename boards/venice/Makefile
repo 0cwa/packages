@@ -15,6 +15,7 @@ define Package/openmanet-venice
   CATEGORY:=OpenMANET
   SUBMENU:=Boards
   TITLE:=OpenMANET Venice board support package
+  DEPENDS:=+openmanet-bsp-common
 endef
 
 define Build/Compile

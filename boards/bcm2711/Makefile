@@ -15,6 +15,7 @@ define Package/openmanet-bcm2711
   CATEGORY:=OpenMANET
   SUBMENU:=Boards
   TITLE:=OpenMANET BCM2711 board support package
+  DEPENDS:=+openmanet-bsp-common
 endef
 
 define Build/Compile
