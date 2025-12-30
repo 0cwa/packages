@@ -34,15 +34,8 @@ return view.extend({
 		]);
 	},
 
-	render([hasPrplmesh, hasMesh11sd, hasMatter]) {
-		const cards = [
-			this.card(
-				L.url('admin', 'morse', 'wizard'),
-				_('Standard Wi-Fi HaLow'),
-				_('Setup your device as a normal Access Point (AP) or Client (Station).'),
-				L.resourceCacheBusted('view/morse/images/wizard.svg'),
-			),
-		];
+	render([hasMesh11sd]) {
+		const cards = [];
 		if (hasMesh11sd) {
 			cards.push(this.card(
 				L.url('admin', 'morse', 'meshwizard'),
