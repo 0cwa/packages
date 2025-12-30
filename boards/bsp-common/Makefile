@@ -12,10 +12,14 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/package.mk
 
 define Package/bsp-common
-  SECTION:=util
-  CATEGORY:=OpenMANET
-  SUBMENU:=Boards
-  TITLE:=OpenMANET common board support package
+	SECTION:=util
+	CATEGORY:=OpenMANET
+	SUBMENU:=Boards
+	TITLE:=OpenMANET common board support package
+endef
+
+define Package/bsp-common/description
+This package provides common board support files for OpenMANET boards.
 endef
 
 define Build/Compile
@@ -23,8 +27,8 @@ define Build/Compile
 endef
 
 define Package/bsp-common/install
-  $(INSTALL_DIR) $(1)/etc/uci-defaults/
-  $(CP) $(PKG_BUILD_DIR)/etc/uci-defaults/* $(1)/etc/uci-defaults/
+	$(INSTALL_DIR) $(1)/etc/uci-defaults/
+	$(CP) $(PKG_BUILD_DIR)/etc/uci-defaults/* $(1)/etc/uci-defaults/
 endef
 
 $(eval $(call BuildPackage,bsp-common))
