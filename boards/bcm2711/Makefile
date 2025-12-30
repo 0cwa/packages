@@ -24,6 +24,9 @@ endef
 define Package/openmanet-bcm2711/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
 	$(CP) ./etc/board.d/* $(1)/etc/board.d/
+
+  $(INSTALL_DIR) $(1)/lib/firmware/morse/
+  $(CP) ./lib/firmware/morse/* $(1)/lib/firmware/morse/
 endef
 
 $(eval $(call BuildPackage,openmanet-bcm2711))
