@@ -7,16 +7,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=morse_driver
-PKG_RELEASE=3
+PKG_RELEASE=4
 
-PKG_VERSION:=1.15.3
+PKG_VERSION:=1.16.4
 
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/MorseMicro/morse_driver.git
-PKG_HASH:=ffc16e6c1d7b5585dcc806d02aeb7cf76024ed9346f14305ffac5b361d721918
+PKG_HASH:=abacddf6fabe024d8496799048d83eaf4d447dd70f22eac8af17e0b02c831d53
 PKG_SOURCE_PROTO:=git
 
 PKG_MAINTAINER:=Morse Micro
@@ -44,7 +44,6 @@ define KernelPackage/morse/config
 endef
 
 ifeq ($(CONFIG_MORSE_SDIO),y)
-  NOSTDINC_FLAGS += -DCONFIG_MORSE_SDIO
   MORSE_MAKEDEFS += CONFIG_MORSE_SDIO=y
 endif
 
@@ -53,22 +52,18 @@ ifeq ($(CONFIG_MORSE_SPI),y)
 endif
 
 ifeq ($(CONFIG_MORSE_USB),y)
-        NOSTDINC_FLAGS += -DCONFIG_MORSE_USB
-        MORSE_MAKEDEFS += CONFIG_MORSE_USB=y
+  MORSE_MAKEDEFS += CONFIG_MORSE_USB=y
 endif
 
 ifeq ($(CONFIG_MORSE_USER_ACCESS),y)
-  NOSTDINC_FLAGS += -DCONFIG_MORSE_USER_ACCESS
   MORSE_MAKEDEFS += CONFIG_MORSE_USER_ACCESS=y
 endif
 
 ifeq ($(CONFIG_MORSE_VENDOR_COMMAND),y)
-  NOSTDINC_FLAGS += -DCONFIG_MORSE_VENDOR_COMMAND
   MORSE_MAKEDEFS += CONFIG_MORSE_VENDOR_COMMAND=y
 endif
 
 ifeq ($(CONFIG_MORSE_MONITOR),y)
-  NOSTDINC_FLAGS += -DCONFIG_MORSE_MONITOR
   MORSE_MAKEDEFS += CONFIG_MORSE_MONITOR=y
 endif
 
@@ -82,9 +77,8 @@ else
   MORSE_MAKEDEFS += DEBUG=n
 endif
 
-ifeq ($(CONFIG_MORSE_RC),y)
-  NOSTDINC_FLAGS += -DCONFIG_MORSE_RC
-  MORSE_MAKEDEFS += CONFIG_MORSE_RC=y
+ifneq ($(CONFIG_MORSE_RC),y)
+  MORSE_MAKEDEFS += CONFIG_DISABLE_MORSE_RC=y
 endif
 
 MORSE_MAKEDEFS += \
@@ -124,13 +118,6 @@ define Build/Compile
 		M="$(PKG_BUILD_DIR)" \
 		NOSTDINC_FLAGS="$(NOSTDINC_FLAGS)" \
 		modules
-endef
-
-define KernelPackage/morse/install
-	if [ "$(CONFIG_MORSE_USB)" = "y" ]; then \
-		$(INSTALL_DIR) $(1)/etc/hotplug.d/usb; \
-		$(INSTALL_BIN) ./files/morse-usb-device.hotplug $(1)/etc/hotplug.d/usb/10-morse-usb-device; \
-	fi
 endef
 
 $(eval $(call KernelPackage,morse))
