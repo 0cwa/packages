@@ -25,10 +25,10 @@ endef
 
 define Package/bsp-bcm2711/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
-	$(CP) ./etc/board.d/* $(1)/etc/board.d/
+	$(CP) $(PKG_BUILD_DIR)/etc/board.d/* $(1)/etc/board.d/
 
   $(INSTALL_DIR) $(1)/lib/firmware/morse/
-  $(CP) ./lib/firmware/morse/* $(1)/lib/firmware/morse/
+  $(CP) $(PKG_BUILD_DIR)/lib/firmware/morse/* $(1)/lib/firmware/morse/
 endef
 
 $(eval $(call BuildPackage,bsp-bcm2711))

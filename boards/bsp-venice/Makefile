@@ -25,7 +25,7 @@ endef
 
 define Package/bsp-venice/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
-	$(CP) ./etc/board.d/* $(1)/etc/board.d/
+	$(CP) $(PKG_BUILD_DIR)/etc/board.d/* $(1)/etc/board.d/
 endef
 
 $(eval $(call BuildPackage,bsp-venice))
