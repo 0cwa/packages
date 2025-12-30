@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bsp-common
-PKG_RELEASE=1
+PKG_RELEASE=2
 PKG_VERSION:=1.0
 
 PKG_LICENSE:=GPLv2
@@ -29,7 +29,7 @@ endef
 
 define Package/bsp-common/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults/
-	$(CP) $(PKG_BUILD_DIR)/etc/uci-defaults $(1)/etc/uci-defaults/
+	$(CP) ./files/uci-defaults/* $(1)/etc/uci-defaults/
 endef
 
 $(eval $(call BuildPackage,bsp-common))
