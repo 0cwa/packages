@@ -1,21 +1,3 @@
-<%#
-	Argon is a clean HTML5 theme for LuCI. It is based on luci-theme-material Argon Template
-
-	luci-theme-argon
-	Copyright 2020 Jerrykuku <jerrykuku@qq.com>
-
-	Have a bug? Please create an issue here on GitHub!
-	https://github.com/jerrykuku/luci-theme-argon/issues
-
-	luci-theme-material:
-	Copyright 2015 Lutty Yang <lutty@wcan.in>
-
-	Argon Theme
-	https://demos.creative-tim.com/argon-dashboard/index.html
-
-	Licensed to the public under the Apache License 2.0
--%>
-
 <%
 	local sys = require "luci.sys"
 	local util = require "luci.util"
@@ -110,17 +92,17 @@
 
 	-- Custom settings
 	local mode = 'normal'
-	local dark_css = fs.readfile('/www/luci-static/argon/css/dark.css')
+	local dark_css = fs.readfile('/www/luci-static/openmanetargon/css/dark.css')
 	local bar_color = '#5e72e4'
 	local primary, dark_primary, blur_radius, blur_radius_dark, blur_opacity
-	if fs.access('/etc/config/argon') then
-		primary = uci:get_first('argon', 'global', 'primary')
-		dark_primary = uci:get_first('argon', 'global', 'dark_primary')
-		blur_radius = uci:get_first('argon', 'global', 'blur')
-		blur_radius_dark = uci:get_first('argon', 'global', 'blur_dark')
-		blur_opacity = uci:get_first('argon', 'global', 'transparency')
-		blur_opacity_dark = uci:get_first('argon', 'global', 'transparency_dark')
-		mode = uci:get_first('argon', 'global', 'mode')
+	if fs.access('/etc/config/openmanetargon') then
+		primary = uci:get_first('openmanetargon', 'global', 'primary')
+		dark_primary = uci:get_first('openmanetargon', 'global', 'dark_primary')
+		blur_radius = uci:get_first('openmanetargon', 'global', 'blur')
+		blur_radius_dark = uci:get_first('openmanetargon', 'global', 'blur_dark')
+		blur_opacity = uci:get_first('openmanetargon', 'global', 'transparency')
+		blur_opacity_dark = uci:get_first('openmanetargon', 'global', 'transparency_dark')
+		mode = uci:get_first('openmanetargon', 'global', 'mode')
 		bar_color = mode == 'dark' and dark_primary or primary
 	end
 
@@ -178,7 +160,7 @@
         <% elseif mode == 'dark' then %>
             <%=dark_css%>
         <% end -%>
-        <% if fs.access('/etc/config/argon') then %>
+        <% if fs.access('/etc/config/openmanetargon') then %>
         :root {
             --primary: <%=primary%>;
             --dark-primary: <%=dark_primary%>;
@@ -202,6 +184,9 @@
 	<script src="<%=url('admin/translations', luci.i18n.context.lang)%>?v=<%=ver.luciversion%>"></script>
 	<script src="<%=resource%>/cbi.js?v=<%=ver.luciversion%>"></script>
 	<script src="<%=resource%>/luci.js?v=<%=ver.luciversion%>"></script>
+	<script>
+		window.advancedModeToggle = <% if advanced_mode_toggle then %>true<% else %>false<% end %>;
+	</script>
 </head>
 
 <body

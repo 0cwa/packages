@@ -13,6 +13,10 @@ PKG_RELEASE:=20250722
 
 CONFIG_LUCI_CSSTIDY:=
 
+define Package/$(PKG_NAME)/conffiles
+/etc/config/openmanetargon
+endef
+
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature

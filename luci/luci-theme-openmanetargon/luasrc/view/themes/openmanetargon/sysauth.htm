@@ -21,7 +21,7 @@
 	Licensed to the public under the Apache License 2.0
 -%>
 
-<%+themes/argon/out_header_login%>
+<%+themes/open/out_header_login%>
 <%
 	local util		= require "luci.util"
 	local fs		= require "nixio.fs"
@@ -71,8 +71,8 @@
 		local backgroundType	= "Image"
 		local mimeType			= ""
 
-		if fs.access("/etc/config/argon") then
-			local online_wallpaper = uci:get_first('argon', 'global', 'online_wallpaper') or (uci:get_first('argon', 'global', 'bing_background') == '1' and 'bing')
+		if fs.access("/etc/config/openmanetargon") then
+			local online_wallpaper = uci:get_first('openmanetargon', 'global', 'online_wallpaper') or (uci:get_first('openmanetargon', 'global', 'bing_background') == '1' and 'bing')
 			if (online_wallpaper and online_wallpaper ~= "none") then
 				local picurl = sys.exec("/usr/libexec/argon/online_wallpaper")
 				if (picurl and picurl ~= '') then
@@ -154,10 +154,34 @@
 					<input type="submit" value="<%:Log in%>" class="cbi-button cbi-button-apply" />
 				</div>
 			</form>
-			<!-- Login Form End -->
 			<script type="text/javascript">//<![CDATA[
+				let passwordInputs = document.querySelectorAll('.cbi-input-password');
+				passwordInputs.forEach(function(input) {
+					let icon = input.nextElementSibling;
+					if (icon && icon.classList.contains('passreveal-icon')) {
+						function toggleIconVisibility() {
+							if (input.value.length > 0) {
+								icon.style.display = 'block';
+							} else {
+								icon.style.display = 'none';
+							}
+						}
+
+						toggleIconVisibility();
+						// Listen for input events to toggle the icon display
+						input.addEventListener('input', toggleIconVisibility);
+						icon.addEventListener('click', function() {
+							if (input.type === 'password') {
+								input.type = 'text';
+							} else {
+								input.type = 'password';
+							}
+						});
+
+					}
+				});
 				var input = document.getElementsByName('luci_password')[0];
 				if (input)
 					input.focus();
-			//]]></script>
-<%+themes/argon/footer_login%>
+		//]]></script>
+<%+themes/openmanetargon/footer_login%>
