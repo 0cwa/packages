@@ -294,7 +294,7 @@ async function startDPP(mode) {
 
 function createSystemCard(boardinfo) {
 	// Currently no nice way to get this.
-	const morseVersion = boardinfo.release.description.split(' ').pop().replace('Morse-', '');
+	const openmanetVersion = boardinfo.release.description.split(' ').pop().replace('OpenMANET-', '');
 
 	return new Card('system', {
 		heading: _('System'),
@@ -311,8 +311,8 @@ function createSystemCard(boardinfo) {
 				E('dd', {}, boardinfo.release.version),
 			]),
 			E('div', { class: 'main-counter' }, [
-				E('div', { class: 'medium-number' }, morseVersion),
-				E('div', { class: 'big-text' }, _('Version')),
+				E('div', { class: 'medium-number' }, openmanetVersion),
+				E('div', { class: 'big-text' }, _('OpenMANET')),
 			]),
 		],
 	});
