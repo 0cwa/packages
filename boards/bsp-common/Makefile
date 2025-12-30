@@ -17,12 +17,9 @@ define Package/bsp-common
   TITLE:=OpenMANET common board support package
 endef
 
-define Build/Compile
-endef
-
 define Package/bsp-common/install
-	$(INSTALL_DIR) $(1)/etc/uci-defaults/
-	$(CP) ./etc/uci-defaults/* $(1)/etc/uci-defaults/
+  $(INSTALL_DIR) $(1)/etc/uci-defaults/
+  $(CP) ./etc/uci-defaults/* $(1)/etc/uci-defaults/
 endef
 
 $(eval $(call BuildPackage,bsp-common))

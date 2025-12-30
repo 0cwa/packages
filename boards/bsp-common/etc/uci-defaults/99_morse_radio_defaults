@@ -39,6 +39,10 @@ fix_bcf_default() {
 		morse,ekh01)
 			bcf=bcf_fgh100mhaamd.bin
 		;;
+		gateworks,imx8mm-gw75xx-0x|\
+		gateworks,imx8mp-gw75xx-2x)
+			bcf=bcf_mf08651_us.bin
+		;;
 	esac
 
 	[ -z "$bcf" ] && return 0

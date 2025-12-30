@@ -18,9 +18,6 @@ define Package/bsp-bcm2711
   DEPENDS:=+bsp-common
 endef
 
-define Build/Compile
-endef
-
 define Package/bsp-bcm2711/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
 	$(CP) ./etc/board.d/* $(1)/etc/board.d/

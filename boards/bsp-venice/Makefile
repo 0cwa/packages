@@ -18,9 +18,6 @@ define Package/bsp-venice
   DEPENDS:=+bsp-common
 endef
 
-define Build/Compile
-endef
-
 define Package/bsp-venice/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
 	$(CP) ./etc/board.d/* $(1)/etc/board.d/
