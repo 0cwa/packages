@@ -1,6 +1,26 @@
 'use strict';
 'require baseclass';
 'require ui';
+'require rpc';
+
+const callUciSet = rpc.declare({
+	object: 'uci',
+	method: 'set',
+	params: ['config', 'section', 'values'],
+	reject: true,
+});
+
+const callUciCommit = rpc.declare({
+	object: 'uci',
+	method: 'commit',
+	params: ['config'],
+	reject: true,
+});
+
+// Items that appear in basic mode.
+const BASIC_MODE_MENU = new Set([
+	'Home', 'Wizards', 'Wizard', 'Upgrade', 'Help', 'Log out',
+]);
 
 /**
  * Native JavaScript slide animation utilities
@@ -196,7 +216,33 @@ return baseclass.extend({
 	 * Load menu data and trigger rendering
 	 */
 	__init__: function () {
-		ui.menu.load().then(L.bind(this.render, this));
+		if (document.getElementById('mainmenu')) {
+			ui.menu.load().then(L.bind(this.render, this));
+		}
+
+		let uimode;
+		if (window.advancedModeToggle) {
+			uimode = localStorage.getItem('uimode');
+			if (!['normal', 'advanced'].includes(uimode)) {
+				uimode = 'normal';
+			}
+		} else {
+			uimode = 'advanced';
+		}
+		document.body.classList.add(`uimode-${uimode}`);
+	},
+
+	switchUIMode: function () {
+		let newmode;
+		if (document.body.classList.contains('uimode-advanced')) {
+			document.body.classList.remove('uimode-advanced');
+			newmode = 'normal';
+		} else {
+			document.body.classList.remove('uimode-normal');
+			newmode = 'advanced';
+		}
+		document.body.classList.add(`uimode-${newmode}`);
+		localStorage.setItem('uimode', newmode);
 	},
 
 	/**
@@ -309,6 +355,8 @@ return baseclass.extend({
 			return E([]);
 		}
 
+		let advancedModeRendered = false;
+
 		// Generate menu items for each child
 		for (var i = 0; i < children.length; i++) {
 			var child = children[i];
@@ -329,6 +377,15 @@ return baseclass.extend({
 				menuContainer.classList.add('active');
 				slideClass += " active";
 				menuClass += " active";
+			}
+
+			if (window.advancedModeToggle && currentLevel === 1 && !advancedModeRendered && !BASIC_MODE_MENU.has(children[i].title)) {
+				var advancedModeItem = E('li', { 'style': 'display: block', 'data-title': 'Advanced' }, [
+					E('a', { click: this.switchUIMode }, _('Advanced Config')),
+				]);
+				menuContainer.appendChild(advancedModeItem);
+
+				advancedModeRendered = true;
 			}
 
 			// Create menu item with link and submenu

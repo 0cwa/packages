@@ -224,6 +224,19 @@
 							<a class="brand" href="#"><%=brand_name%></a>
 						</div>
 						<div class="status" id="indicators"></div>
+						<% if found_other_language then %>
+						<div class="languages">
+							<% local first = true %>
+							<% for k, v in pairs(languages) do %>
+									<a class="language-change" data-lang="<%=k%>"><%=v:match("^(%S*)")%></a>
+									<% if first then %>
+										|
+										<% first = false %>
+									<% end %>
+							<% end %>
+						</div>
+						<% end %>
+						<button class="close"></button>
 					</div>
 				</div>
 			</header>
