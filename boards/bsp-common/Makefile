@@ -7,6 +7,7 @@ PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=
 
 PKG_MAINTAINER:=OpenMANET
+PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -15,6 +16,10 @@ define Package/bsp-common
   CATEGORY:=OpenMANET
   SUBMENU:=Boards
   TITLE:=OpenMANET common board support package
+endef
+
+define Build/Compile
+
 endef
 
 define Package/bsp-common/install
