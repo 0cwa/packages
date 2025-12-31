@@ -32,6 +32,7 @@ load_openwrt_release() {
 configure_custom_feeds() {
     local feeds_conf="/etc/opkg/customfeeds.conf"
     local feed_base_url="https://openmanet.github.io/packages-repo/${DISTRIB_RELEASE}/packages/${DISTRIB_ARCH}"
+    local target_feed_url="https://openmanet.github.io/packages-repo/${DISTRIB_RELEASE}/targets/${DISTRIB_TARGET}"
 
     # List of feed names to configure
     local feeds="base gateworks luci morse openmanet packages routing telephony"
@@ -43,6 +44,9 @@ configure_custom_feeds() {
     for feed in $feeds; do
         echo "src/gz $feed ${feed_base_url}/${feed}" >> "$feeds_conf"
     done
+
+    # Add Feed for Target Specific Packages
+    echo "src/gz target ${target_feed_url}/packages" >> "$feeds_conf"
 
     return 0
 }
