@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=bsp-bcm2711
+PKG_NAME:=bsp-bcm271x
 PKG_RELEASE=2
 PKG_VERSION:=1.0
 
@@ -12,23 +12,23 @@ PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/bsp-bcm2711
+define Package/bsp-bcm271x
 	SECTION:=utils
 	CATEGORY:=OpenMANET
 	SUBMENU:=Boards
-	TITLE:=OpenMANET BCM2711 board support package
+	TITLE:=OpenMANET BCM271x board support package
 	DEPENDS:=+bsp-common
 endef
 
-define Package/bsp-bcm2711/description
-This package provides board support for the OpenMANET BCM2711 board.
+define Package/bsp-bcm271x/description
+This package provides board support for the OpenMANET BCM271x board.
 endef
 
 define Build/Compile
 
 endef
 
-define Package/bsp-bcm2711/install
+define Package/bsp-bcm271x/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
 	$(CP) ./files/board.d/* $(1)/etc/board.d/
 
@@ -36,4 +36,4 @@ define Package/bsp-bcm2711/install
 	$(CP) ./files/lib/firmware/morse/* $(1)/lib/firmware/morse/
 endef
 
-$(eval $(call BuildPackage,bsp-bcm2711))
+$(eval $(call BuildPackage,bsp-bcm271x))
