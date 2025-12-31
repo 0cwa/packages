@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Load OpenWrt release information from /etc/openwrt_release
+# This function sources the release file and exports the distribution variables
+# for use throughout the script.
+load_openwrt_release() {
+    local release_file="/etc/openwrt_release"
+
+    if [ -f "$release_file" ]; then
+        # Source the release file to load variables
+        . "$release_file"
+
+        # Export variables for use in the script
+        export DISTRIB_ID
+        export DISTRIB_RELEASE
+        export DISTRIB_REVISION
+        export DISTRIB_TARGET
+        export DISTRIB_ARCH
+        export DISTRIB_DESCRIPTION
+        export DISTRIB_TAINTS
+
+        return 0
+    else
+        echo "Warning: $release_file not found" >&2
+        return 1
+    fi
+}
+
+# Configure custom feeds in /etc/opkg/customfeeds.conf
+# This function appends custom feed repositories using the distribution
+# release and architecture information.
+configure_custom_feeds() {
+    local feeds_conf="/etc/opkg/customfeeds.conf"
+    local feed_base_url="https://openmanet.github.io/packages-repo/${DISTRIB_RELEASE}/packages/${DISTRIB_ARCH}"
+
+    # List of feed names to configure
+    local feeds="base gateworks luci morse openmanet packages routing telephony"
+
+    # Create or clear the custom feeds file
+    > "$feeds_conf"
+
+    # Add each feed to the configuration
+    for feed in $feeds; do
+        echo "src/gz $feed ${feed_base_url}/${feed}" >> "$feeds_conf"
+    done
+
+    return 0
+}
+
+load_openwrt_release
+configure_custom_feeds
