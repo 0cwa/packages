@@ -1,9 +1,8 @@
 <%
-	local sys = require "luci.sys"
+	local sys  = require "luci.sys"
 	local util = require "luci.util"
 	local http = require "luci.http"
 	local disp = require "luci.dispatcher"
-	local ver = require "luci.version"
 	local posix = require "nixio.fs"
 
 	local boardinfo = util.ubus("system", "board")
@@ -14,10 +13,6 @@
 	end
 
 	local node = disp.context.dispatched
-
-	local fs = require "nixio.fs"
-	local nutil = require "nixio.util"
-	local uci = require 'luci.model.uci'.cursor()
 
 	-- send as HTML5
 	http.prepare_content("text/html")
@@ -88,8 +83,6 @@
 		true
 	).stdout == "1\n";
 
-	math.randomseed(tonumber(tostring(os.time()):reverse():sub(1, 9)))
-
 	-- Custom settings
 	local mode = 'normal'
 	local dark_css = fs.readfile('/www/luci-static/openmanetargon/css/dark.css')
@@ -105,53 +98,25 @@
 		mode = uci:get_first('openmanetargon', 'global', 'mode')
 		bar_color = mode == 'dark' and dark_primary or primary
 	end
-
-	-- Brand name
-	local brand_name = boardinfo.hostname or "?"
 -%>
 <!DOCTYPE html>
 <html lang="<%=luci.i18n.context.lang%>">
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title><%=striptags( (boardinfo.hostname or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
-	
-	<!-- SEO and Description -->
-	<meta name="robots" content="noindex, nofollow">
-	
-	<!-- Security -->
-	<meta http-equiv="X-Content-Type-Options" content="nosniff">
-	<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-	<meta http-equiv="X-XSS-Protection" content="1; mode=block">
-	<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-	
-	<!-- Mobile and PWA -->
-	<meta name="format-detection" content="telephone=no, email=no">
-	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	<meta name="apple-mobile-web-app-title" content="<%=striptags( (boardinfo.hostname or "?") ) %> - LuCI">
-	
-	<!-- Theme and Colors -->
-	<meta name="theme-color" content="<%=bar_color%>">
-	<meta name="msapplication-TileColor" content="<%=bar_color%>">
-	<meta name="msapplication-TileImage" content="<%=media%>/icon/ms-icon-144x144.png">
-	<meta name="application-name" content="<%=striptags( (boardinfo.hostname or "?") ) %> - LuCI">
-	
-	<!-- Icons and Manifest -->
-	<link rel="icon" type="image/x-icon" href="<%=media%>/favicon.ico">
-	<link rel="icon" type="image/png" sizes="16x16" href="<%=media%>/icon/logo-small.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="<%=media%>/icon/logo-small.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="<%=media%>/icon/logo-small.png">
+	<title>
+		<%=striptags( (boardinfo.hostname or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %>
+		- LuCI</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta name="application-name" content="<%=striptags( (boardinfo.hostname or "?") ) %> - HaLow Device">
+	<link rel="apple-touch-icon" href="<%=media%>/icon/favicon-180x180.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="<%=media%>/icon/logo-small.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="<%=media%>/icon/logo-small.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="<%=media%>/icon/logo-small.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="<%=media%>/icon/logo-small.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="<%=media%>/icon/logo-small.png">
-	<link rel="manifest" href="<%=media%>/icon/manifest.json" crossorigin="use-credentials">
-	
-	<link rel="stylesheet" href="<%=media%>/css/cascade.css<%# ?v=PKG_VERSION %>">
+	<link rel="icon" type="image/png" sizes="32x32" href="<%=media%>/icon/favicon-32x32.png">
+	<meta name="theme-color" content="#5e72e4">
+	<link rel="stylesheet" href="<%=media%>/css/normalize.8.0.1.min.css">
+	<link rel="stylesheet" href="<%=media%>/icon/icons.css">
+	<link rel="stylesheet" href="<%=media%>/css/cascade.css">
+	<!-- Disabled unless we check this <link rel="stylesheet" href="<%=media%>/css/dark.css"> -->
 	<style title="text/css">
         <% if mode == 'normal' then %>
             @media (prefers-color-scheme: dark) {
@@ -170,20 +135,16 @@
             --blur-opacity-dark:<%=blur_opacity_dark%>;
         }
         <% end -%>
-        </style>
-	
-	<!-- Stylesheets -->
+    </style>
 	<% if node and node.css then %>
 	<link rel="stylesheet" href="<%=resource%>/<%=node.css%>">
 	<% end -%>
 	<% if css then %>
-	<style title="text/css">
-		<%=css %>
-	</style>
+		<style title="text/css"><%= css %></style>
 	<% end -%>
-	<script src="<%=url('admin/translations', luci.i18n.context.lang)%>?v=<%=ver.luciversion%>"></script>
-	<script src="<%=resource%>/cbi.js?v=<%=ver.luciversion%>"></script>
-	<script src="<%=resource%>/luci.js?v=<%=ver.luciversion%>"></script>
+	<script src="<%=url('admin/translations', luci.i18n.context.lang)%><%# ?v=PKG_VERSION %>"></script>
+	<script src="<%=resource%>/luci.js"></script>
+	<script src="<%=resource%>/cbi.js"></script>
 	<script>
 		window.advancedModeToggle = <% if advanced_mode_toggle then %>true<% else %>false<% end %>;
 	</script>
@@ -191,14 +152,14 @@
 
 <body
 	class="lang_<%=luci.i18n.context.lang%> <% if node then %><%= striptags( node.title ) %><% end %> <% if luci.dispatcher.context.authsession then %>logged-in<% end %>"
-	data-page="<%= pcdata(table.concat(disp.context.requestpath, "-")) %>">
+	data-page="<%= table.concat(disp.context.requestpath, "-") %>">
 	<% if not blank_page then %>
 	<div class="main">
 		<% if not wizard then %>
-		<div class="main-left" id="mainmenu" style="display:none">
+		<div class="main-left" id="mainmenu">
 			<div class="sidenav-header d-flex align-items-center">
 				<a class="brand" href="/cgi-bin/luci/">
-					<img class="logo" src="<%=media%>/icon/logo-small.png" alt="OpenMANET">
+					<img class="logo" src="<%=media%>/icon/logo-small.png" alt="OpenMANET>
 				</a>
 				<div class="ml-auto">
 					<!-- Sidenav toggler -->
@@ -218,26 +179,23 @@
 			<%- if wizard then -%>
 			<header class="bg-primary wizard">
 				<div class="fill">
-					<div class="container wizard">
-						<div class="flex1">
-							<a class="showSide"></a>
-							<a class="brand" href="#"><%=brand_name%></a>
-						</div>
-						<div class="status" id="indicators"></div>
-						<% if found_other_language then %>
-						<div class="languages">
-							<% local first = true %>
-							<% for k, v in pairs(languages) do %>
-									<a class="language-change" data-lang="<%=k%>"><%=v:match("^(%S*)")%></a>
-									<% if first then %>
-										|
-										<% first = false %>
-									<% end %>
+						<div class="container wizard">
+							<img class="brand" src="<%=media%>/img/mm-logo-white-tagline.webp" alt="OpenMANET">
+							<div id="header-space" style="flex-grow: 1"></div>
+							<% if found_other_language then %>
+							<div class="languages">
+								<% local first = true %>
+								<% for k, v in pairs(languages) do %>
+										<a class="language-change" data-lang="<%=k%>"><%=v:match("^(%S*)")%></a>
+										<% if first then %>
+											|
+											<% first = false %>
+										<% end %>
+								<% end %>
+							</div>
 							<% end %>
+							<button class="close"></button>
 						</div>
-						<% end %>
-						<button class="close"></button>
-					</div>
 				</div>
 			</header>
 			<%- else -%>

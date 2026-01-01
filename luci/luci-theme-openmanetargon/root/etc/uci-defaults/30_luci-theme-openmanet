@@ -1,0 +1,20 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+if [ "$PKG_UPGRADE" != 1 ]; then
+	uci get luci.themes.openmanetargon >/dev/null 2>&1 || \
+	uci batch <<-EOF
+		set luci.themes.openmanetargon=/luci-static/openmanetargon
+		set luci.main.mediaurlbase=/luci-static/openmanetargon
+		commit luci
+	EOF
+fi
+
+
+if ! uci -q get luci.main.advancedmodetoggle; then
+	uci set luci.main.advancedmodetoggle='1'
+fi
+
+
+exit 0
