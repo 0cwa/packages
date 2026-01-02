@@ -536,7 +536,7 @@ td.cbi-value-field var {
 }
 
 .notice {
-  background-color: #483d8b !important;
+  color: var(--lighter);
   background-color: var(--dark-primary) !important
 }
 
@@ -711,8 +711,8 @@ td>.ifacebadge,
 .cbi-button[value="Kill"],
 .cbi-button[onclick="reboot(this)"],
 .cbi-button-neutral[value="Restart"] {
-  border: thin solid darkorange !important;
-  background-color: darkorange !important
+  border: thin solid var(--danger) !important;
+  background-color: var(--danger) !important
 }
 
 .cbi-section,
@@ -725,7 +725,7 @@ td>.ifacebadge,
 [data-tab-title],
 [data-page^="admin-system-admin"]:not(.node-main-login) .cbi-map:not(#cbi-dropbear),
 [data-page="admin-system-opkg"] #maincontent>.container {
-  background: #1e1e1e !important;
+  background: var(--dark) !important;
   box-shadow: 0 0 .5rem 0 rgba(0, 0, 0, 0.35)
 }
 
@@ -756,8 +756,8 @@ div[style="width:100%;height:300px;border:1px solid #000;background:#fff"] {
 }
 
 [data-page="admin-system-flash"] .modal .danger {
-  border: thin solid darkorange !important;
-  background-color: darkorange !important
+  border: thin solid var(--danger) !important;
+  background-color: var(--danger) !important
 }
 
 .cbi-value input[type="password"]+.cbi-button-neutral {
@@ -771,7 +771,7 @@ button,
 select,
 input,
 .cbi-dropdown {
-  border: 1px solid #3c3c3c !important
+  border: 1px solid var(--dark)!important
 }
 
 .cbi-dropdown .preview {
@@ -846,9 +846,8 @@ input,
 .cbi-button[value="Upload"],
 .cbi-button[value$="Apply"],
 .cbi-button[onclick="addKey(event)"] {
-  background: #483d8b !important;
-  background: var(--dark-primary) !important;
-  border-color: var(--dark-primary) !important
+  background: var(--dark) !important;
+  border-color: var(--darker) !important
 }
 
 .btn.primary,
@@ -1118,6 +1117,7 @@ input,
     background-color: var(--dark);
 }
 
+/*
 .cbi-page-actions .cbi-button-apply, .cbi-section-actions .cbi-button-edit,
 .cbi-button-edit, .cbi-button-apply, .cbi-button-reload, .cbi-button-action,
 .cbi-button[value="Submit"], .cbi-button[value="Upload"], .cbi-button[value$="Apply"],
@@ -1125,17 +1125,21 @@ input,
     background: var(--dark-primary) !important;
     border-color: var(--dark-primary) !important;
 }
+    */
 
 [data-page="admin-system-flash"] .modal .btn {
     white-space: normal !important;
     background-color: var(--blue);
 }
 
-.cbi-page-actions .cbi-button-apply, .cbi-section-actions .cbi-button-edit,
-.cbi-button-edit.important, .cbi-button-apply.important, .cbi-button-reload.important,
+.cbi-page-actions .cbi-button-apply,
+.cbi-section-actions .cbi-button-edit,
+.cbi-button-edit.important,
+.cbi-button-apply.important,
+.cbi-button-reload.important,
 .cbi-button-action.important {
     border: 1px var(--dark-primary) solid !important;
-    background-color: var(--success) !important;
+    background-color: var(--warning) !important;
 }
 
 /* Pages with multiple sections or cbi-maps should use the normal background
@@ -1154,10 +1158,6 @@ input,
      */
     overflow: clip;
   }
-}
-
-.cbi-progressbar {
-    background: var(--light);
 }
 
 #cbi-network-ahwlan .ifacebox-head {
@@ -1238,4 +1238,19 @@ input,
   color: var(--lighter);
   border:
     1px solid #dee2e6;
+}
+
+/* Wizard View */
+#view.wizardview {
+  .cbi-page-actions-flex {
+    .cbi-button {
+        background-color: var(--dark) !important;
+        border-color: var(--dark) !important;
+
+      .cbi-button-action {
+        background-color: var(--dark) !important;
+        border-color: var(--dark-) !important;
+      }
+    }
+  }
 }
