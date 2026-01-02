@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bsp-venice
-PKG_RELEASE=2
+PKG_RELEASE=1
 PKG_VERSION:=1.0
 
 PKG_LICENSE:=GPLv2
@@ -17,7 +17,7 @@ define Package/bsp-venice
 	CATEGORY:=OpenMANET
 	SUBMENU:=Boards
 	TITLE:=OpenMANET Venice board support package
-	DEPENDS:=+bsp-common
+	DEPENDS:=+bsp-common +gpsd
 endef
 
 define Package/bsp-venice/description
@@ -30,7 +30,10 @@ endef
 
 define Package/bsp-venice/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
-	$(CP) ./files/board.d/* $(1)/etc/board.d/
+	$(INSTALL_BIN) ./files/board.d/* $(1)/etc/board.d/
+
+	$(INSTALL_DIR) $(1)/etc/config/
+	$(CP) ./files/config/* $(1)/etc/config/
 endef
 
 $(eval $(call BuildPackage,bsp-venice))
