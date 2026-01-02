@@ -11,3 +11,5 @@ Modifications to the OpenMANET project is done through custom OpenWRT packages. 
 ## Getting Started
 Review the [OpenWRT Documentation](https://openwrt.org/docs/guide-developer/packages) on how to create packages.
 
+## Releases
+The OpenMANET firmware builds are pinned to a git sha for repeatable builds.  Updates from this repository will be integrated into OpenMANET when a new build is created.  There is no SLA or timeline how often this occurs.
