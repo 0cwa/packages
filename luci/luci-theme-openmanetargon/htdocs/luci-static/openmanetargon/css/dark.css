@@ -1115,9 +1115,27 @@ input,
 }
 
 #view {
-    border-radius: 0.25rem;
-    padding-bottom: 20px;
     background-color: var(--dark);
+}
+
+.cbi-page-actions .cbi-button-apply, .cbi-section-actions .cbi-button-edit,
+.cbi-button-edit, .cbi-button-apply, .cbi-button-reload, .cbi-button-action,
+.cbi-button[value="Submit"], .cbi-button[value="Upload"], .cbi-button[value$="Apply"],
+.cbi-button[onclick="addKey(event)"] {
+    background: var(--dark-primary) !important;
+    border-color: var(--dark-primary) !important;
+}
+
+[data-page="admin-system-flash"] .modal .btn {
+    white-space: normal !important;
+    background-color: var(--blue);
+}
+
+.cbi-page-actions .cbi-button-apply, .cbi-section-actions .cbi-button-edit,
+.cbi-button-edit.important, .cbi-button-apply.important, .cbi-button-reload.important,
+.cbi-button-action.important {
+    border: 1px var(--dark-primary) solid !important;
+    background-color: var(--success) !important;
 }
 
 /* Pages with multiple sections or cbi-maps should use the normal background
@@ -1136,6 +1154,26 @@ input,
      */
     overflow: clip;
   }
+}
+
+.cbi-progressbar {
+    background: var(--light);
+}
+
+#cbi-network-ahwlan .ifacebox-head {
+  color: var(--dark) !important;
+}
+
+#prplmesh-topology, #mesh11s-topology {
+    div.graphcontainer > svg div.node-agent {
+        border: 3px dashed #8b98b0;
+    }
+}
+#prplmesh-topology, #mesh11s-topology {
+    div.graphcontainer > svg div.node {
+        border: 2px dotted black;
+        background: var(--background-color-high);
+    }
 }
 
 [data-page="admin-network-wireless"] .td,
