@@ -49,9 +49,9 @@
 	min-height: 340px;
 	text-decoration: none;
 	color: inherit;
-	background-color: var(--background-color-high);
+	background-color: var(--background-menu-color);
 	border-radius: 0.25rem;
-	box-shadow: 0 0 1rem 0 var(--box-shadow);
+	box-shadow: 0 0 1rem 0 var(--menu-color-hover);
 	transition: box-shadow  0.3s ease-in-out;
 	padding:  14px;
 
@@ -72,7 +72,7 @@
 
 	h1, h2, h3, h4, h5 {
 		color: inherit;
-		background-color: var(--background-color-high);
+		background-color: var(--background-menu-color);
 	}
 
 	h1, h2, h3, h4 {

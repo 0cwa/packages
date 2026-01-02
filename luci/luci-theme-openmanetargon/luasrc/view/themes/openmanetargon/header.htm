@@ -82,22 +82,6 @@
 		{"/sbin/persistent_vars_storage.sh", "READ", "mm_virtual_wire"},
 		true
 	).stdout == "1\n";
-
-	-- Custom settings
-	local mode = 'normal'
-	local dark_css = fs.readfile('/www/luci-static/openmanetargon/css/dark.css')
-	local bar_color = '#5e72e4'
-	local primary, dark_primary, blur_radius, blur_radius_dark, blur_opacity
-	if fs.access('/etc/config/openmanetargon') then
-		primary = uci:get_first('openmanetargon', 'global', 'primary')
-		dark_primary = uci:get_first('openmanetargon', 'global', 'dark_primary')
-		blur_radius = uci:get_first('openmanetargon', 'global', 'blur')
-		blur_radius_dark = uci:get_first('openmanetargon', 'global', 'blur_dark')
-		blur_opacity = uci:get_first('openmanetargon', 'global', 'transparency')
-		blur_opacity_dark = uci:get_first('openmanetargon', 'global', 'transparency_dark')
-		mode = uci:get_first('openmanetargon', 'global', 'mode')
-		bar_color = mode == 'dark' and dark_primary or primary
-	end
 -%>
 <!DOCTYPE html>
 <html lang="<%=luci.i18n.context.lang%>">
@@ -108,7 +92,7 @@
 		<%=striptags( (boardinfo.hostname or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %>
 		- LuCI</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta name="application-name" content="<%=striptags( (boardinfo.hostname or "?") ) %> - HaLow Device">
+	<meta name="application-name" content="<%=striptags( (boardinfo.hostname or "?") ) %> - MM HaLow Device">
 	<link rel="apple-touch-icon" href="<%=media%>/icon/favicon-180x180.png">
 	<link rel="icon" type="image/png" sizes="192x192" href="<%=media%>/icon/logo-small.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="<%=media%>/icon/favicon-32x32.png">
@@ -116,26 +100,7 @@
 	<link rel="stylesheet" href="<%=media%>/css/normalize.8.0.1.min.css">
 	<link rel="stylesheet" href="<%=media%>/icon/icons.css">
 	<link rel="stylesheet" href="<%=media%>/css/cascade.css">
-	<!-- Disabled unless we check this <link rel="stylesheet" href="<%=media%>/css/dark.css"> -->
-	<style title="text/css">
-        <% if mode == 'normal' then %>
-            @media (prefers-color-scheme: dark) {
-                <%=dark_css%>
-            }
-        <% elseif mode == 'dark' then %>
-            <%=dark_css%>
-        <% end -%>
-        <% if fs.access('/etc/config/openmanetargon') then %>
-        :root {
-            --primary: <%=primary%>;
-            --dark-primary: <%=dark_primary%>;
-            --blur-radius:<%=blur_radius%>px;
-            --blur-opacity:<%=blur_opacity%>;
-            --blur-radius-dark:<%=blur_radius_dark%>px;
-            --blur-opacity-dark:<%=blur_opacity_dark%>;
-        }
-        <% end -%>
-    </style>
+	<link rel="stylesheet" href="<%=media%>/css/dark.css">
 	<% if node and node.css then %>
 	<link rel="stylesheet" href="<%=resource%>/<%=node.css%>">
 	<% end -%>
@@ -159,7 +124,7 @@
 		<div class="main-left" id="mainmenu">
 			<div class="sidenav-header d-flex align-items-center">
 				<a class="brand" href="/cgi-bin/luci/">
-					<img class="logo" src="<%=media%>/icon/logo-small.png" alt="OpenMANET>
+					<img class="logo" src="<%=media%>/icon/logo-small.png" alt="OpenMANET">
 				</a>
 				<div class="ml-auto">
 					<!-- Sidenav toggler -->

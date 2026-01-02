@@ -1081,7 +1081,7 @@ async function createMesh11sTopologyCard() {
 
 	const meshAgentCount = mesh11sData.countAgents() || 0;
 	const meshStatus = mesh11sData.meshStatus();
-	const colorStyle = `color: ${meshStatus ? 'green' : 'red'}`;
+	const colorStyle = `color: ${meshStatus ? '#2dce89' : '#f5365c'}`;
 
 	return new Card('mesh11s', {
 		heading: '802.11s Mesh Topology',
