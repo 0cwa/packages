@@ -412,6 +412,12 @@ select {
   background-color: #1e1e1e !important
 }
 
+::selection {
+  background-color: var(--light);
+  color: #fff;
+  color: var(--white);
+}
+
 #cbi-dropbear h2,
 #cbi-dropbear .cbi-map-descr,
 #cbi-dropbear .cbi-map-descr abbr,
