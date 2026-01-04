@@ -279,7 +279,7 @@ h4 {
 }
 
 .cbi-progressbar div {
-  background-color: var(--dark-primary) !important
+  background-color: var(--gray) !important
 }
 
 .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
@@ -1242,6 +1242,14 @@ input,
 
 /* Wizard View */
 #view.wizardview {
+  div.wizard-contents {
+    div.cards {
+      a.card {
+        background-color: var(--dark) !important;
+      }
+      .card:hover
+    }
+  }
   .cbi-page-actions-flex {
     .cbi-button {
         background-color: var(--dark) !important;
@@ -1253,4 +1261,24 @@ input,
       }
     }
   }
+}
+
+
+morse-config-diagram {
+  #shadow-root {
+    svg {
+      background-color: rgb(165 165 170) !important;
+    }
+  }
+}
+
+
+.card {
+    & .small-contents {
+        morse-config-diagram {
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 0px;
+        }
+    }
 }
