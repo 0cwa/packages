@@ -104,7 +104,8 @@ function readSectionInfo() {
 	const morseMeshInterfaceName = `mesh_${morseDeviceName}`;
 
 	const wifiDevices = [];
-	const wifiDeviceConfigs = uci.sections('wireless', 'wifi-device').filter(s => s.type === 'mac80211');
+	const wifiDeviceConfigs = uci.sections('wireless', 'wifi-device').filter(
+		s => s.type === 'mac80211' && s.path != morseDevice?.['.path']);
 	for (const wifiDeviceConfig of wifiDeviceConfigs) {
 		wifiDevices.push(new WizardWifiDevice(wifiDeviceConfig));
 	}

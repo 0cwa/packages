@@ -1,0 +1,47 @@
+#!/bin/sh
+
+. /lib/functions.sh
+
+# Fix wireless configurations for Morse devices
+# Remove duplicate mac80211 wifi-device with specific SPI path that conflicts
+# with the Morse driver's own device configuration
+TARGET_PATH="platform/soc/fe204000.spi/spi_master/spi0/spi0.0"
+
+remove_wifi_iface_by_device() {
+	local iface_config="$1"
+	local device_config="$2"
+	local device
+
+	config_get device "$iface_config" device
+
+	if [ "$device" = "$device_config" ]; then
+		uci -q delete "wireless.$iface_config"
+	fi
+}
+
+remove_duplicate_wifi_device() {
+	local device_config="$1"
+	local type path
+
+	config_get type "$device_config" type
+	config_get path "$device_config" path
+
+	# Only process mac80211 devices with the specific SPI path
+	[ "$type" = "mac80211" ] || return 0
+	[ "$path" = "$TARGET_PATH" ] || return 0
+
+	# Remove all wifi-iface sections associated with this device
+	config_foreach remove_wifi_iface_by_device wifi-iface "$device_config"
+
+	# Remove the wifi-device section itself
+	uci -q delete "wireless.$device_config"
+}
+
+# Load wireless configuration and process all wifi-device sections
+config_load wireless
+config_foreach remove_duplicate_wifi_device wifi-device
+
+# Commit changes if any were made
+uci commit wireless
+
+exit 0
