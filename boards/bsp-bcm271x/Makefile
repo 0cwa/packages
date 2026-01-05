@@ -32,6 +32,9 @@ define Package/bsp-bcm271x/install
 	$(INSTALL_DIR) $(1)/etc/board.d/
 	$(CP) ./files/board.d/* $(1)/etc/board.d/
 
+	$(INSTALL_DIR) $(1)/etc/uci-defaults/
+	$(INSTALL_BIN) ./files/uci-defaults/* $(1)/etc/uci-defaults/
+
 	$(INSTALL_DIR) $(1)/lib/firmware/morse/
 	$(CP) ./files/lib/firmware/morse/* $(1)/lib/firmware/morse/
 endef
