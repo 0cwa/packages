@@ -389,7 +389,7 @@ function resetUci() {
 		// NB leaving 'disabled' out of the whitelist ensures the device is enabled.
 		whitelistFields('wireless', device, [
 			'type', 'path', 'band', 'hwmode', 'htmode', 'reconf', 'bcf', 'country', 'channel',
-			'cell_density', 'txpower',
+			'cell_density', 'txpower', 'enable_ps', 'enable_dynamic_ps_offload', 'enable_twt',
 		]);
 	}
 
