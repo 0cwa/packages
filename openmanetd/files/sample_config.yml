@@ -1,6 +1,7 @@
 logLevel: debug
 meshNetInterface: br-ahwlan
 gatewayMode: false
+dbFile: /etc/openmanetd/openmanetd.db
 alfred:
   mode: primary
   batInterface: bat0
