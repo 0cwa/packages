@@ -2,12 +2,18 @@
 
 board=$(board_name)
 
+board_config_update
+
 case "$board" in
 gateworks,imx8mm-gw75xx-0x|\
 gateworks,imx8mp-gw75xx-2x)
     setup_openmanet_wifi
 	;;
 esac
+
+board_config_flush
+
+exit 0
 
 # Set OpenMANET WiFi SSID and password if they are still at the OpenWrt defaults.
 setup_openmanet_wifi() {
@@ -44,5 +50,3 @@ setup_openmanet_wifi() {
         uci -q commit wireless
     done
 }
-
-exit 0
