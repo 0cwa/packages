@@ -17,7 +17,7 @@ define Package/bsp-venice
 	CATEGORY:=OpenMANET
 	SUBMENU:=Boards
 	TITLE:=OpenMANET Venice board support package
-	DEPENDS:=+bsp-common +gpsd
+	DEPENDS:=+bsp-common +gpsd +kmod-thermal +kmod-hwmon-gsc
 endef
 
 define Package/bsp-venice/description
