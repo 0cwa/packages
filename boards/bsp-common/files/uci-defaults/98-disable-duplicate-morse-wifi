@@ -31,6 +31,8 @@ remove_duplicate_wifi_device() {
 		bcm2711,mm6108-sdio)
 			TARGET_PATH="platform/soc/fe204000.spi/spi_master/spi0/spi0.0"
 		;;
+		gateworks,imx8mp-gw75xx-2x)
+			TARGET_PATH="platform/soc@0/32f10108.usb/38200000.usb/xhci-hcd.1.auto/usb3/3-1/3-1.4/3-1.4:1.0"
 	esac
 
 	config_get type "$device_config" type
