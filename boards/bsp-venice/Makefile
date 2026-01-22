@@ -36,7 +36,7 @@ define Package/bsp-venice/install
 	$(CP) ./files/config/* $(1)/etc/config/
 
 	$(INSTALL_DIR) $(1)/etc/
-	$(CP) ./files/rc.local $(1)/etc/rc.local
+	cp -fp ./files/rc.local $(1)/etc/rc.local
 endef
 
 $(eval $(call BuildPackage,bsp-venice))
