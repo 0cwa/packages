@@ -1,11 +1,9 @@
 #!/bin/sh
-
 . /lib/functions.sh
 
 # Fix wireless configurations for Morse devices
 # Remove duplicate mac80211 wifi-device with specific SPI path that conflicts
 # with the Morse driver's own device configuration
-TARGET_PATH="platform/soc/fe204000.spi/spi_master/spi0/spi0.0"
 
 remove_wifi_iface_by_device() {
 	local iface_config="$1"
@@ -22,6 +20,18 @@ remove_wifi_iface_by_device() {
 remove_duplicate_wifi_device() {
 	local device_config="$1"
 	local type path
+
+	board=$(board_name)
+	case "$board" in
+		bcm2710,mm6108-sdio|\
+		bcm2710,mm6108-spi)
+			TARGET_PATH="platform/soc/3f204000.spi/spi_master/spi0/spi0.0"
+		;;
+		bcm2711,mm6108-spi|\
+		bcm2711,mm6108-sdio)
+			TARGET_PATH="platform/soc/fe204000.spi/spi_master/spi0/spi0.0"
+		;;
+	esac
 
 	config_get type "$device_config" type
 	config_get path "$device_config" path
