@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bsp-venice
-PKG_RELEASE=1
+PKG_RELEASE=2
 PKG_VERSION:=1.0
 
 PKG_LICENSE:=GPLv2
@@ -34,6 +34,9 @@ define Package/bsp-venice/install
 
 	$(INSTALL_DIR) $(1)/etc/config/
 	$(CP) ./files/config/* $(1)/etc/config/
+
+	$(INSTALL_DIR) $(1)/etc/
+	$(CP) ./files/rc.local $(1)/etc/rc.local
 endef
 
 $(eval $(call BuildPackage,bsp-venice))
