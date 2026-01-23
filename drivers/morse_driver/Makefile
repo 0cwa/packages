@@ -7,16 +7,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=morse_driver
-PKG_RELEASE=4
+PKG_RELEASE=1
 
-PKG_VERSION:=1.16.4
+#PKG_VERSION:=1.16.4
+PKG_VERSION:=1.16.4-gateworks
 
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
-PKG_SOURCE_URL:=https://github.com/MorseMicro/morse_driver.git
-PKG_HASH:=abacddf6fabe024d8496799048d83eaf4d447dd70f22eac8af17e0b02c831d53
+#PKG_SOURCE_URL:=https://github.com/MorseMicro/morse_driver.git
+#PKG_HASH:=abacddf6fabe024d8496799048d83eaf4d447dd70f22eac8af17e0b02c831d53
+PKG_SOURCE_URL:=https://github.com/Gateworks/morse_driver.git
+PKG_SOURCE_VERSION:=dec5bc215b881c369ff530c440c212ec6dd13183
+PKG_MIRROR_HASH:=9701cce64cd9442b6a535a0690dd46d628467464a1d567d61d7c9a7a3d65be8c
 PKG_SOURCE_PROTO:=git
 
 PKG_MAINTAINER:=Morse Micro
@@ -27,6 +31,9 @@ include $(INCLUDE_DIR)/package.mk
 
 DTC=$(wildcard $(LINUX_DIR)/scripts/dtc/dtc)
 
+# Extract mac80211 version
+MAC80211_VERSION:=v$(shell grep '^PKG_VERSION:=' $(TOPDIR)/package/kernel/mac80211/Makefile | cut -d'=' -f2 | head -1)
+
 define KernelPackage/morse
   SUBMENU:=Wireless Drivers
   TITLE:=Morse Micro WIFI HaLow driver
@@ -35,7 +42,7 @@ define KernelPackage/morse
     $(PKG_BUILD_DIR)/morse.ko \
     $(PKG_BUILD_DIR)/dot11ah/dot11ah.ko
   AUTOLOAD:=$(call AutoProbe,morse)
-  MODPARAMS.morse:=country=US
+  MODPARAMS.morse:=country=US enable_ext_xtal_init=1
   PROVIDES:=kmod-morse
 endef
 
@@ -85,7 +92,8 @@ MORSE_MAKEDEFS += \
   MORSE_VERSION=0-$(PKG_VERSION) \
   KERNEL_SRC=$(LINUX_DIR) \
   CONFIG_MORSE_SDIO_ALIGNMENT=$(CONFIG_MORSE_SDIO_ALIGNMENT) \
-  CONFIG_BACKPORT_VERSION=v6.12.6
+  CONFIG_MORSE_POWERSAVE_MODE=0 \
+  CONFIG_BACKPORT_VERSION=$(MAC80211_VERSION)
 # This refers to the version of mac80211 backported to OpenWrt
 # Occasionally patches are required to remove some parts of the driver
 # as OpenWrt may sometimes pull in further patches from later kernel versions
