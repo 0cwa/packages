@@ -17,8 +17,6 @@ bcm2712,mm8108-spi |\
 morse,ekh01 |\
 morse,mm6108-ekh01-spi |\
 morse,mm8108-ekh01-spi |\
-raspberrypi,5-model-b |\
-raspberrypi,5-compute-module |\
 raspberrypi,model-b |\
 raspberrypi,model-b-plus |\
 raspberrypi,model-b-rev2 |\
@@ -29,6 +27,8 @@ raspberrypi,3-model-b-plus |\
 raspberrypi,400 |\
 raspberrypi,4-compute-module |\
 raspberrypi,4-model-b |\
+raspberrypi,5-compute-module |\
+raspberrypi,5-model-b |\
 raspberrypi,model-b |\
 raspberrypi,model-b-plus |\
 raspberrypi,model-b-rev2)
