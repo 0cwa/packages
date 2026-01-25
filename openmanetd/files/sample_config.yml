@@ -1,4 +1,4 @@
-logLevel: debug
+logLevel: info
 meshNetInterface: br-ahwlan
 gatewayMode: false
 dbFile: /etc/openmanetd/openmanetd.db

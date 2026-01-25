@@ -381,6 +381,9 @@ function setBridgeWithPorts(networkSectionId, ports) {
 			bridgeSectionId = uci.add('network', 'device');
 			uci.set('network', bridgeSectionId, 'name', proposedName);
 			uci.set('network', bridgeSectionId, 'type', 'bridge');
+			// Assign a random MAC to the bridge
+			// This is to fix an issue in 24.10 where interfaces get new mac addresses each reboot
+			uci.set('network', bridgeSectionId, 'macaddr', getRandomMAC());
 			break;
 		} else if (!uci.sections('network', 'interface').some(s => s.device === proposedName)) {
 			// If it's currently unused, let's re-use.

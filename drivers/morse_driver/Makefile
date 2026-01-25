@@ -7,16 +7,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=morse_driver
-PKG_RELEASE=4
+PKG_RELEASE=1
 
-PKG_VERSION:=1.16.4
+PKG_VERSION:=1.16.4-gateworks
 
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
-PKG_SOURCE_URL:=https://github.com/MorseMicro/morse_driver.git
-PKG_HASH:=abacddf6fabe024d8496799048d83eaf4d447dd70f22eac8af17e0b02c831d53
+PKG_SOURCE_URL:=https://github.com/Gateworks/morse_driver.git
+PKG_SOURCE_VERSION:=dec5bc215b881c369ff530c440c212ec6dd13183
+PKG_MIRROR_HASH:=9701cce64cd9442b6a535a0690dd46d628467464a1d567d61d7c9a7a3d65be8c
 PKG_SOURCE_PROTO:=git
 
 PKG_MAINTAINER:=Morse Micro
@@ -38,7 +39,7 @@ define KernelPackage/morse
     $(PKG_BUILD_DIR)/morse.ko \
     $(PKG_BUILD_DIR)/dot11ah/dot11ah.ko
   AUTOLOAD:=$(call AutoProbe,morse)
-  MODPARAMS.morse:=country=US
+  MODPARAMS.morse:=country=US enable_ext_xtal_init=1
   PROVIDES:=kmod-morse
 endef
 
