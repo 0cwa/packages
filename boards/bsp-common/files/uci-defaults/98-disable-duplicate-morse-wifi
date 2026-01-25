@@ -2,8 +2,50 @@
 . /lib/functions.sh
 
 # Fix wireless configurations for Morse devices
-# Remove duplicate mac80211 wifi-device with specific SPI path that conflicts
-# with the Morse driver's own device configuration
+# Remove duplicate wifi-device sections based on path and type
+# When duplicates are found (same path), keep only the 'morse' type
+
+DEVICES_TO_REMOVE=""
+
+# Collect all device paths and types
+collect_device_info() {
+	local device_config="$1"
+	local type path
+
+	config_get type "$device_config" type
+	config_get path "$device_config" path
+
+	# Skip if no path is set
+	[ -n "$path" ] || return 0
+
+	# Store device info: path|type|device_name
+	DEVICE_INFO="${DEVICE_INFO}${path}|${type}|${device_config}
+"
+}
+
+# Find and mark duplicates for removal
+find_duplicates() {
+	local current_path current_type current_device
+	local check_path check_type check_device
+
+	# Process each device entry
+	echo "$DEVICE_INFO" | while IFS='|' read -r current_path current_type current_device; do
+		[ -n "$current_path" ] || continue
+
+		# Check if this path appears multiple times
+		echo "$DEVICE_INFO" | while IFS='|' read -r check_path check_type check_device; do
+			[ -n "$check_path" ] || continue
+
+			# If same path but different device name
+			if [ "$current_path" = "$check_path" ] && [ "$current_device" != "$check_device" ]; then
+				# If current device is NOT morse, mark it for removal
+				if [ "$current_type" != "morse" ]; then
+					echo "$current_device"
+				fi
+			fi
+		done
+	done | sort -u
+}
 
 remove_wifi_iface_by_device() {
 	local iface_config="$1"
@@ -17,43 +59,26 @@ remove_wifi_iface_by_device() {
 	fi
 }
 
-remove_duplicate_wifi_device() {
-	local device_config="$1"
-	local type path
+# Load wireless configuration
+config_load wireless
 
-	board=$(board_name)
-	case "$board" in
-		bcm2710,mm6108-sdio|\
-		bcm2710,mm6108-spi)
-			TARGET_PATH="platform/soc/3f204000.spi/spi_master/spi0/spi0.0"
-		;;
-		bcm2711,mm6108-spi|\
-		bcm2711,mm6108-sdio)
-			TARGET_PATH="platform/soc/fe204000.spi/spi_master/spi0/spi0.0"
-		;;
-		gateworks,imx8mp-gw75xx-2x)
-			TARGET_PATH="platform/soc@0/32f10108.usb/38200000.usb/xhci-hcd.1.auto/usb3/3-1/3-1.4/3-1.4:1.0"
-	esac
+# Collect all device information
+DEVICE_INFO=""
+config_foreach collect_device_info wifi-device
 
-	config_get type "$device_config" type
-	config_get path "$device_config" path
+# Find devices to remove (non-morse duplicates)
+DEVICES_TO_REMOVE=$(find_duplicates)
 
-	# Only process mac80211 devices with the specific SPI path
-	[ "$type" = "mac80211" ] || return 0
-	[ "$path" = "$TARGET_PATH" ] || return 0
-
+# Remove duplicate devices and their associated interfaces
+for device in $DEVICES_TO_REMOVE; do
 	# Remove all wifi-iface sections associated with this device
-	config_foreach remove_wifi_iface_by_device wifi-iface "$device_config"
+	config_foreach remove_wifi_iface_by_device wifi-iface "$device"
 
 	# Remove the wifi-device section itself
-	uci -q delete "wireless.$device_config"
-}
-
-# Load wireless configuration and process all wifi-device sections
-config_load wireless
-config_foreach remove_duplicate_wifi_device wifi-device
+	uci -q delete "wireless.$device"
+done
 
 # Commit changes if any were made
-uci commit wireless
+[ -n "$DEVICES_TO_REMOVE" ] && uci commit wireless
 
 exit 0
