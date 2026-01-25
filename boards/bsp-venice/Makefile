@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bsp-venice
-PKG_RELEASE=1
+PKG_RELEASE=2
 PKG_VERSION:=1.0
 
 PKG_LICENSE:=GPLv2
@@ -17,7 +17,7 @@ define Package/bsp-venice
 	CATEGORY:=OpenMANET
 	SUBMENU:=Boards
 	TITLE:=OpenMANET Venice board support package
-	DEPENDS:=+bsp-common +gpsd
+	DEPENDS:=+bsp-common +gpsd +kmod-thermal +kmod-hwmon-gsc
 endef
 
 define Package/bsp-venice/description

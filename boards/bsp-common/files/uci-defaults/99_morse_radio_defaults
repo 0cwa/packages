@@ -46,18 +46,19 @@ fix_bcf_default() {
 		morse,ekh01)
 			bcf=bcf_fgh100mhaamd.bin
 		;;
-		gateworks,imx8mm-gw75xx-0x|\
-		gateworks,imx8mp-gw75xx-2x)
-			bcf=bcf_mf08651_us.bin
-		;;
 	esac
+
+	uci -q set wireless."${config}".enable_mcast_whitelist=0
+	uci -q set wireless."${config}".enable_mcast_rate_control=1
+	uci -q set wireless."${config}".country='US'
+	uci -q set wireless."${config}".enable_ps=0
+	uci -q set wireless."${config}".enable_dynamic_ps_offload=0
+	uci -q set wireless."${config}".enable_twt=0
 
 	[ -z "$bcf" ] && return 0
 
 	uci -q set wireless."${config}".bcf="${bcf}"
-	uci -q set wireless."${config}".enable_mcast_whitelist=0
-	uci -q set wireless."${config}".enable_mcast_rate_control=1
-	uci -q set wireless."${config}".country='US'
+
 }
 
 config_load wireless

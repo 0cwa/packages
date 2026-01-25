@@ -1,0 +1,18 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+# Set CPU Thermal Trip Points and Types
+echo "75000" > /sys/class/thermal/thermal_zone0/trip_point_0_temp
+echo "90000" > /sys/class/thermal/thermal_zone0/trip_point_1_temp
+
+echo "hot" > /sys/class/thermal/thermal_zone0/trip_point_0_type
+echo "critical" > /sys/class/thermal/thermal_zone0/trip_point_1_type
+
+# Set SOC Thermal Trip Points and Types
+echo "75000" > /sys/class/thermal/thermal_zone1/trip_point_0_temp
+echo "90000" > /sys/class/thermal/thermal_zone1/trip_point_1_temp
+
+echo "hot" > /sys/class/thermal/thermal_zone1/trip_point_0_type
+echo "critical" > /sys/class/thermal/thermal_zone1/trip_point_1_type
+
+exit 0

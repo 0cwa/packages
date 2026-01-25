@@ -155,6 +155,9 @@ return wizard.AbstractWizardView.extend({
 		uci.set('wireless', morseInterfaceName, 'beacon_int', '1000');
 		uci.set('wireless', morseDeviceName, 'enable_mcast_whitelist', '0');
 		uci.set('wireless', morseDeviceName, 'enable_mcast_rate_control', '1');
+		uci.set('wireless', morseDeviceName, 'enable_ps', '0');
+		uci.set('wireless', morseDeviceName, 'enable_dynamic_ps_offload', '0');
+		uci.set('wireless', morseDeviceName, 'enable_twt', '0');
 
 		const bridgeMode = () => {
 			morseuci.setNetworkDevices('ahwlan', this.getEthernetPorts().map(p => p.device));
