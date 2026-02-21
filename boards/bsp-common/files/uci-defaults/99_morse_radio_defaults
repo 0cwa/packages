@@ -44,9 +44,6 @@ fix_bcf_default() {
 		bcm2712,mm6108-spi)
 			bcf=bcf_fgh100mhaamd.bin
 		;;
-		bcm2712,mm8108-spi)
-			bcf=bcf_fgh100mhaamd.bin
-		;;
 		# This is the default build target for OpenMANET
 		morse,ekh01)
 			bcf=bcf_fgh100mhaamd.bin
